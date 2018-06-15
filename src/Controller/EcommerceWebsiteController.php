@@ -60,7 +60,7 @@ class EcommerceWebsiteController extends Controller
             $companySubtitle = (string)$request->request->get('companySubtitle');
 
             if ($em->getRepository(User::class)->findOneBy(['email' => $email])) {
-                return new JsonResponse(['success' => false, 'error' => 'Eemail has already been used'], JsonResponse::HTTP_BAD_REQUEST);
+                return new JsonResponse(['success' => false, 'error' => 'Email has already been used'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             $command = new CreateWebsite($companyName, $email, $logoUrl, $companySubtitle);
