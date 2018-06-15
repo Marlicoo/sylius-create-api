@@ -32,9 +32,9 @@ services:
         tags: ['controller.service_arguments']
 
     # Command Handlers
-    App\UseCase\Ecommerce\CreateShopHandler:
+    App\UseCase\Ecommerce\CreateWebsiteHandler:
         tags:
-          - { name: tactician.handler, command: App\UseCase\Ecommerce\CreateShop }
+          - { name: tactician.handler, command: App\UseCase\Ecommerce\CreateWebsite }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

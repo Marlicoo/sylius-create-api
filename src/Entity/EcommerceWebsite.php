@@ -30,6 +30,11 @@ class EcommerceWebsite
     private $containers;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $url;
+
+    /**
      * @ORM\Column(type="boolean", length=100)
      */
     private $enabled;
@@ -95,6 +100,18 @@ class EcommerceWebsite
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

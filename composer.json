@@ -8,6 +8,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "ircmaxell/random-lib": "^1.2",
         "league/tactician-bundle": "^1.1",
+        "nelmio/api-doc-bundle": "^3.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",

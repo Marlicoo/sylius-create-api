@@ -21,8 +21,7 @@ class ContainerDataFactory
     private static $syliusEnv = [
         'SYLIUS_DATABASE_USER=sylius',
         'SYLIUS_DATABASE_PASSWORD=sylius',
-        'SYLIUS_APP_DEV_PERMITTED=1',
-        'VIRTUAL_HOST=shop5.localhost'
+        'SYLIUS_APP_DEV_PERMITTED=1'
     ];
 
     /** @var  ContainerRepository */
@@ -47,7 +46,7 @@ class ContainerDataFactory
      * @param string $imageType
      * @return ContainerConfig
      */
-    public function prepareData(string $imageType){
+    public function prepareData(string $imageType, string $companyName){
 
         switch($imageType){
             case DockerApi::IMAGE_DATABASE:
@@ -64,6 +63,7 @@ class ContainerDataFactory
                 $name = sprintf(self::NAME_ECOMMERCE, $port);
 
                 self::$syliusEnv[] = 'SYLIUS_DATABASE_HOST=rbpl-mysql-'. $databasePort;
+                self::$syliusEnv[] = sprintf('VIRTUAL_HOST=%s.localhost', $companyName);
 
                 return new ContainerConfig($this->imageEcommerce, $name, $port, 'sylius', self::$syliusEnv);
                 break;

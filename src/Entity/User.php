@@ -32,7 +32,7 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="EcommerceWebsite", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="EcommerceWebsite", mappedBy="user", cascade={"persist"})
      */
     private $ecommerceShop;
 

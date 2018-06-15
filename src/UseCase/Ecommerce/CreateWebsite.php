@@ -3,7 +3,7 @@
 namespace App\UseCase\Ecommerce;
 
 
-class CreateShop
+class CreateWebsite
 {
     /** @var string */
     private $companyName;
@@ -14,13 +14,16 @@ class CreateShop
     /** @var string */
     private $logoUrl;
 
+    /** @var string */
+    private $companySubtitle;
+
     /**
-     * CreateShop constructor.
+     * CreateWebsite constructor.
      * @param string $companyName
      * @param string $email
      * @param string $logoUrl
      */
-    public function __construct($companyName, $email, $logoUrl)
+    public function __construct($companyName, $email, $logoUrl, $companySubtitle)
     {
         $this->companyName = $companyName;
         $this->email = $email;
@@ -49,6 +52,14 @@ class CreateShop
     public function getLogoUrl(): string
     {
         return $this->logoUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanySubtitle(): string
+    {
+        return $this->companySubtitle;
     }
 
 }
