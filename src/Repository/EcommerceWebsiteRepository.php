@@ -12,16 +12,13 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method EcommerceWebsite[]    findAll()
  * @method EcommerceWebsite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EcommerceShopRepository extends ServiceEntityRepository
+class EcommerceWebsiteRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, EcommerceWebsite::class);
     }
 
-    public function nextPort(){
-
-    }
 
 //    /**
 //     * @return EcommerceShop[] Returns an array of EcommerceShop objects

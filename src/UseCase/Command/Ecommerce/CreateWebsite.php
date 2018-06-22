@@ -1,20 +1,37 @@
 <?php
 
-namespace App\UseCase\Ecommerce;
+namespace App\UseCase\Command\Ecommerce;
 
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateWebsite
 {
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="No company name provided")
+     */
     private $companyName;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="No email provided")
+     * @Assert\Email(message="Invalid email address provided")
+     */
     private $email;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="No logo url provided")
+     * @Assert\Url()
+     */
     private $logoUrl;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $companySubtitle;
 
     /**
