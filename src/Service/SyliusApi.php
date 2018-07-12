@@ -6,22 +6,25 @@ use GuzzleHttp\Client;
 
 class SyliusApi
 {
-
-    const URI = 'localhost';
     const LOCALE = 'pl_PL';
 
     private $client;
 
     /**
      * SyliusApi constructor.
-
      */
     public function __construct()
     {
         $this->client = new Client();
     }
 
-
+    /**
+     * @param string $uri
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @return string
+     */
     public function createAdmin($uri, $username, $password, $email)
     {
         $accessToken = $this->getAccessToken($uri);

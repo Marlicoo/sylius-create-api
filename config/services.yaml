@@ -32,11 +32,20 @@ services:
         tags: ['controller.service_arguments']
 
     # Command Handlers
-    App\UseCase\Ecommerce\CreateWebsiteHandler:
+    App\UseCase\Command\Ecommerce\CreateWebsiteHandler:
         tags:
-          - { name: tactician.handler, command: App\UseCase\Ecommerce\CreateWebsite }
+          - { name: tactician.handler, command: App\UseCase\Command\Ecommerce\CreateWebsite }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    #App\Service\TemplateCreator:
+    # Application listeners
+    App\EventListener\Ecommerce\ValidationFailure:
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception }
+
+    App\Service\RequestBodyConverter:
+        tags:
+          - { name: request.param_converter, priority: -2, converter: command_converter }
+
+

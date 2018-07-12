@@ -12,4 +12,5 @@ tactician:
 #                - tactician.middleware.locking
 # Doctrine transactional middleware, requires additional package - https://github.com/thephpleague/tactician-doctrine
 #                - tactician.middleware.doctrine
+                - 'App\UseCase\Command\Ecommerce\CreateWebsiteMiddleware'
                 - tactician.middleware.command_handler

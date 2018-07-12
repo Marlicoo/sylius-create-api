@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCase\Ecommerce;
+namespace App\UseCase\Command\Ecommerce;
 
 
 use App\Dto\ContainerConfig;
@@ -49,17 +49,22 @@ class CreateWebsiteHandler
     public function handle(CreateWebsite $command)
     {
         $databaseConfig = $this->containerDataFactory->prepareData(DockerApi::IMAGE_DATABASE, $command->getCompanyName());
-        $syliusConfig   = $this->containerDataFactory->prepareData(DockerApi::IMAGE_ECOMMERCE, $command->getCompanyName());
+        $syliusConfig = $this->containerDataFactory->prepareData(DockerApi::IMAGE_ECOMMERCE, $command->getCompanyName());
 
         $this->docker->createContainer($databaseConfig);
         $this->docker->createContainer($syliusConfig, $command->getLogoUrl());
 
-        sleep(15);
+        sleep(20);
 
         $passwordFactory = new Factory();
         $password = $passwordFactory->getMediumStrengthGenerator()->generateString(10);
 
-        $this->sylius->createAdmin($syliusConfig->getContainerName(), $command->getEmail(), $password, $command->getEmail() );
+        $this->sylius->createAdmin($syliusConfig->getContainerName(), $command->getEmail(), $password, $command->getEmail());
+
+        $this->docker->cmd(["sh", "-c", "cd sylius/ && php bin/console doctrine:query:sql 'insert into sylius_gateway_config values (3, \"rbpl\", \"rbpl\", \"{}\")' \
+                       && php bin/console doctrine:query:sql 'insert into sylius_payment_method values(3, 3, \"rbpl\", NULL, 1, 2, \"2018-06-21 11:38:06\", \"2018-06-21 11:38:06\")' \
+                       && php bin/console doctrine:query:sql 'insert into sylius_payment_method_channels values (3, 2)' \
+                       && php bin/console doctrine:query:sql 'insert into sylius_payment_method_translation values(3, 3, \"Pay With R-Pay\", NULL, NULL, \"en_US\" )'"], $syliusConfig->getContainerName());
 
         $this->saveData($command, $syliusConfig, $databaseConfig, $password);
 
@@ -74,7 +79,7 @@ class CreateWebsiteHandler
      */
     public function saveData(CreateWebsite $command, ContainerConfig $syliusConfig, ContainerConfig $databaseConfig, $password): void
     {
-        $this->em->getConnection()->beginTransaction(); // suspend auto-commit
+        $this->em->getConnection()->beginTransaction();
         try {
             $syliusContainer = new Container();
             $syliusContainer->setName($syliusConfig->getContainerName())
@@ -90,7 +95,7 @@ class CreateWebsiteHandler
             $ecommerce->addContainer($syliusContainer);
             $ecommerce->addContainer($databaseContainer);
             $ecommerce->setEnabled(true);
-            $ecommerce->setUrl(sprintf('%s.localhost:%s', $command->getCompanyName(), $syliusConfig->getPort()));
+            $ecommerce->setUrl(sprintf('%s%s.localhost:%s','http://', $command->getCompanyName(), $syliusConfig->getPort()));
 
             $user = new User();
             $user->setEmail($command->getEmail())
